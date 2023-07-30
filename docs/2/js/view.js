@@ -1,20 +1,26 @@
 class View {
     constructor(humans) { this.humans = humans }
-    static entry() {
-
-        <textarea id="log" rows="13"></textarea>
-
-    }
-    static make(humans) {
-        document.querySelector('#game').innerHTML = ''
-        document.querySelector('#game').add(this.#makeStatus(humans), this.#makeLog())
-    }
-    static #makeStatus() { return `<table id="status">
+    make() { document.querySelector('#game').innerHTML = this.#makeStatus() + this.#makeLog() }
+    #makeStatus() { return `<table id="status">
     <tr id="h1"><td id="h1-name"></td><td id="h1-life"></td></tr>
     <tr id="h2"><td id="h2-name"></td><td id="h2-life"></td></tr>
 </table>` }
-    static #makeLog() { return '<textarea id="log" rows="13"></textarea>' }
-    static update(humans) {
-        
+    #makeLog() { return '<textarea id="log" rows="13"></textarea>' }
+    update() {
+        for (let h=0; h<this.humans.length; h++) {
+            for (let p of ['name', 'life']) {
+                let id = `#h${h+1}-${p}`
+                console.log(id)
+                console.log(document.querySelector(id))
+                document.querySelector(id).textContent = this.humans[h][p]
+            }
+        }
+    }
+    logging(log) {
+        console.log(log)
+        document.querySelector(`#log`).value = log + '\n' + document.querySelector(`#log`).value
+    }
+    judge() { // 勝者：黄、敗者：青
+
     }
 }

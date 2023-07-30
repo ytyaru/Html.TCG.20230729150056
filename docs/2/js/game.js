@@ -1,5 +1,7 @@
 class Game {
     static start(humans) { // 対戦者
+        const view = new View(humans)
+        View.make()
         console.log(humans)
         humans.sort((a,b)=>a.agility - b.agility)
         const TURN_LIMIT = 10 * 2
@@ -8,15 +10,19 @@ class Game {
             let attaker = humans[(0 === t % 2) ? 0 : 1]
             let defender = humans[(0 === t % 2) ? 1 : 0]
             let damage = Math.abs(attaker.power - defender.toughness)
-            this.logging(`${turn}週目 ${attaker.name}は${defender.name}に攻撃し${damage}のダメージを与えた！`)
+            view.logging(`${turn}週目 ${attaker.name}は${defender.name}に攻撃し${damage}のダメージを与えた！`)
+            //this.logging(`${turn}週目 ${attaker.name}は${defender.name}に攻撃し${damage}のダメージを与えた！`)
             defender.life -= damage
             this.draw(humans)
+            view.update()
             if (defender.life <= 0) {
-                this.logging(`戦闘終了 勝者 ${attaker.name}！`)
+                view.logging(`戦闘終了 勝者 ${attaker.name}！`)
+                //this.logging(`戦闘終了 勝者 ${attaker.name}！`)
                 return [attaker, turn]
             }
         }
-        this.logging(`戦闘終了 引き分け ${TURN_LIMIT}以内に勝敗つかず…`)
+        view.logging(`戦闘終了 引き分け ${TURN_LIMIT}以内に勝敗つかず…`)
+        //this.logging(`戦闘終了 引き分け ${TURN_LIMIT}以内に勝敗つかず…`)
         for (let h=0; h<humans.length; h++) {
             this.logging(`${humans[h].name} ${humans[h].life}`)
         }
